@@ -1,0 +1,148 @@
+export type ProductBadge = "none" | "on-special" | "best-buy" | "staff-pick";
+
+export interface Product {
+  id: string;
+  image: string;
+  productName: string;
+  sku: string;
+  stockLevel: number;
+  inStock: boolean;
+  unit: string;
+  basePrice: number;
+  badge: ProductBadge;
+  category: string;
+  description: string;
+}
+
+export const products: Product[] = [
+  {
+    id: "prod-001",
+    image: "https://picsum.photos/seed/prod1/80/80",
+    productName: "Organic Whole Milk",
+    sku: "DRY-MLK-001",
+    stockLevel: 245,
+    inStock: true,
+    unit: "1L",
+    basePrice: 4.99,
+    badge: "best-buy",
+    category: "Dairy",
+    description: "Fresh organic whole milk from local farms",
+  },
+  {
+    id: "prod-002",
+    image: "https://picsum.photos/seed/prod2/80/80",
+    productName: "Sourdough Bread Loaf",
+    sku: "BKR-BRD-012",
+    stockLevel: 38,
+    inStock: true,
+    unit: "each",
+    basePrice: 6.5,
+    badge: "staff-pick",
+    category: "Bakery",
+    description: "Artisan sourdough baked fresh daily",
+  },
+  {
+    id: "prod-003",
+    image: "https://picsum.photos/seed/prod3/80/80",
+    productName: "Free Range Eggs",
+    sku: "DRY-EGG-003",
+    stockLevel: 120,
+    inStock: true,
+    unit: "dozen",
+    basePrice: 7.99,
+    badge: "none",
+    category: "Dairy",
+    description: "Free range eggs from pasture-raised hens",
+  },
+  {
+    id: "prod-004",
+    image: "https://picsum.photos/seed/prod4/80/80",
+    productName: "Atlantic Salmon Fillet",
+    sku: "SEA-SAL-007",
+    stockLevel: 0,
+    inStock: false,
+    unit: "per kg",
+    basePrice: 28.99,
+    badge: "none",
+    category: "Seafood",
+    description: "Fresh Atlantic salmon, skin-on fillet",
+  },
+  {
+    id: "prod-005",
+    image: "https://picsum.photos/seed/prod5/80/80",
+    productName: "Avocado Hass",
+    sku: "FRT-AVO-002",
+    stockLevel: 89,
+    inStock: true,
+    unit: "each",
+    basePrice: 2.5,
+    badge: "on-special",
+    category: "Fruit",
+    description: "Ripe Hass avocados, ready to eat",
+  },
+  {
+    id: "prod-006",
+    image: "https://picsum.photos/seed/prod6/80/80",
+    productName: "Greek Yogurt Natural",
+    sku: "DRY-YGT-005",
+    stockLevel: 67,
+    inStock: true,
+    unit: "500g",
+    basePrice: 5.49,
+    badge: "none",
+    category: "Dairy",
+    description: "Thick and creamy natural Greek yogurt",
+  },
+  {
+    id: "prod-007",
+    image: "https://picsum.photos/seed/prod7/80/80",
+    productName: "Wagyu Beef Scotch Fillet",
+    sku: "MET-BEF-015",
+    stockLevel: 12,
+    inStock: true,
+    unit: "per kg",
+    basePrice: 89.99,
+    badge: "staff-pick",
+    category: "Meat",
+    description: "Premium wagyu beef, marble score 7+",
+  },
+  {
+    id: "prod-008",
+    image: "https://picsum.photos/seed/prod8/80/80",
+    productName: "Basmati Rice",
+    sku: "GRN-RCE-004",
+    stockLevel: 200,
+    inStock: true,
+    unit: "1kg",
+    basePrice: 4.29,
+    badge: "best-buy",
+    category: "Grains",
+    description: "Premium aged basmati rice",
+  },
+  {
+    id: "prod-009",
+    image: "https://picsum.photos/seed/prod9/80/80",
+    productName: "Extra Virgin Olive Oil",
+    sku: "OIL-OLV-001",
+    stockLevel: 54,
+    inStock: true,
+    unit: "500ml",
+    basePrice: 12.99,
+    badge: "on-special",
+    category: "Pantry",
+    description: "Cold-pressed extra virgin olive oil",
+  },
+  {
+    id: "prod-010",
+    image: "https://picsum.photos/seed/prod10/80/80",
+    productName: "Blueberries Punnet",
+    sku: "FRT-BLU-008",
+    stockLevel: 0,
+    inStock: false,
+    unit: "125g",
+    basePrice: 5.99,
+    badge: "none",
+    category: "Fruit",
+    description: "Fresh blueberries, locally grown",
+  },
+];

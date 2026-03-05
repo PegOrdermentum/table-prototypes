@@ -1,0 +1,169 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { DetailSheet } from "@/components/detail-sheet";
+import {
+  menuItems as initialMenuItems,
+  type MenuItem,
+  type MenuItemStatus,
+} from "@/data/menu-items";
+import { toast } from "sonner";
+
+function marginColor(margin: number) {
+  if (margin >= 70) return "text-green-600";
+  if (margin >= 60) return "text-yellow-600";
+  return "text-red-600";
+}
+
+export function MenuItemsTableV2() {
+  const [items, setItems] = useState<MenuItem[]>(initialMenuItems);
+  const [detailItem, setDetailItem] = useState<MenuItem | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  function handleNavigate(item: MenuItem) {
+    setDetailItem(item);
+    setSheetOpen(true);
+    toast.info(`Navigating to ${item.name}`, {
+      description: "Main column click triggered navigation",
+    });
+  }
+
+  function updateItem(id: string, updates: Partial<MenuItem>) {
+    setItems((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        const updated = { ...item, ...updates };
+        if (updates.price !== undefined) {
+          updated.margin = Math.round(
+            ((updated.price - updated.foodCost) / updated.price) * 100
+          );
+        }
+        return updated;
+      })
+    );
+  }
+
+  return (
+    <div>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-16">Image</TableHead>
+              <TableHead>Menu Item</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead className="text-right">Food Cost</TableHead>
+              <TableHead className="text-right">Margin</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-10 h-10 rounded object-cover bg-muted"
+                  />
+                </TableCell>
+                <TableCell>
+                  <button
+                    className="text-left cursor-pointer group"
+                    onClick={() => handleNavigate(item)}
+                  >
+                    <p className="font-medium text-primary underline-offset-4 group-hover:underline">
+                      {item.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.category}
+                    </p>
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <div className="w-24">
+                    <Input
+                      type="number"
+                      step="0.50"
+                      value={item.price}
+                      onChange={(e) =>
+                        updateItem(item.id, {
+                          price: parseFloat(e.target.value) || 0,
+                        })
+                      }
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  ${item.foodCost.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <span className={`font-medium ${marginColor(item.margin)}`}>
+                    {item.margin}%
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <Select
+                    value={item.status}
+                    onValueChange={(val) =>
+                      updateItem(item.id, {
+                        status: val as MenuItemStatus,
+                      })
+                    }
+                  >
+                    <SelectTrigger className="h-8 w-32 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">
+                        <Badge variant="outline" className="text-xs">
+                          Draft
+                        </Badge>
+                      </SelectItem>
+                      <SelectItem value="published">
+                        <Badge variant="default" className="text-xs">
+                          Published
+                        </Badge>
+                      </SelectItem>
+                      <SelectItem value="experiment">
+                        <Badge variant="secondary" className="text-xs">
+                          Experiment
+                        </Badge>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <DetailSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        item={detailItem}
+        type="menu-item"
+      />
+    </div>
+  );
+}
